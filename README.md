@@ -1,19 +1,20 @@
 <h1>Projeto API de Turmas, Professores e Alunos </h1>
-#Comandos básicos do projeto
+<ul>Comandos básicos do projeto
 
-##criar ambiente
-python -m venv nome_do_ambiente
+<li>##criar ambiente</li>
+<li>python -m venv nome_do_ambiente</li>
 
-##Ativar ambiente Linux ou MacOs
-source ./venv/bin/actvate
+<li>##Ativar ambiente Linux ou MacOs</li>
+<li>source ./venv/bin/actvate</li>
 
-##Ativar ambiente Windows
-nome_venv/Script/activate
+<li>##Ativar ambiente Windows</li>
+<li>nome_venv/Script/activate</li>
 
-##Instalar dependências
-pip install -r requirements.txt
+<li>##Instalar dependências</li>
+<li>pip install -r requirements.txt</li>
 
-pip freeze > requirements.txt
+<li>pip freeze > requirements.txt</li>
+</ul>
 
 <h2>Caso não tenha o Flask instalado</h2> 
 
