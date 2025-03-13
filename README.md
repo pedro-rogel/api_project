@@ -1,16 +1,16 @@
 <h1>Projeto API de Turmas, Professores e Alunos </h1>
-<ul>Comandos básicos do projeto
-
-<li>##criar ambiente</li>
+<h2>Comandos básicos do projeto</h2>
+<ul>
+<li>Criar ambiente</li>
 <li>python -m venv nome_do_ambiente</li>
 
-<li>##Ativar ambiente Linux ou MacOs</li>
+<li>Ativar ambiente Linux ou MacOs</li>
 <li>source ./venv/bin/actvate</li>
 
-<li>##Ativar ambiente Windows</li>
+<li>Ativar ambiente Windows</li>
 <li>nome_venv/Script/activate</li>
 
-<li>##Instalar dependências</li>
+<li>Instalar dependências</li>
 <li>pip install -r requirements.txt</li>
 
 <li>pip freeze > requirements.txt</li>
