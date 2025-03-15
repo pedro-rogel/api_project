@@ -1,34 +1,45 @@
 from flask import Flask, jsonify, make_response, request, url_for, redirect
-from students import api_entidades
+from entities import api_entidades
 
 app = Flask(__name__)
 
 app.config['JSON_SORT_KEYS'] = False
 
 @app.route("/alunos", methods=['GET'])
-def get_students():
-    return make_response(jsonify(message='Lista de estudantes', data=api_entidades))
+def get_student():
+    if not api_entidades["students"]:
+        return make_response(jsonify(message="No registered students"))
+    return make_response(jsonify(data=api_entidades["students"], message="List of students"))
+
+@app.route(f"/alunos/<int:id>", methods=['GET'])
+def get_student_id(id):
+    for student in api_entidades["students"]:
+        if student["id"] == id:
+            return jsonify(student)
+    return jsonify({"error": "Student not found"}), 404
 
 @app.route("/alunos", methods=['POST'])
 def create_student():
     student = request.json
     api_entidades["students"].append(student)
-    return make_response(jsonify(student))
+    return make_response(jsonify(data=student, message="Successful creation"))
 
-@app.route(f"/alunos/<int:id>", methods=['GET'])
-def get_id(id):
-    for i in api_entidades['students']:
-        if i['id'] == id:
-            return jsonify(i)
-    return jsonify({"error": "student not found"}), 404
+@app.route("/alunos/<int:id>", methods=['PUT'])
+def update_student(id):
+    for student in api_entidades["students"]:
+        if student["id"] == id:
+            r = request.json
+            student["name"] = r["name"]
+            return make_response(jsonify(message="Successful update"))
+    return jsonify({"error": "Student not found"}), 404
 
 @app.route("/alunos/<int:id>", methods=['DELETE'])
 def delete_student(id):
-    for students in api_entidades['students']:
-        if students['id'] == id:
-            return make_response(jsonify(messsage='Excluido', data=api_entidades['students'].remove(students)))
-        
-    pass
+    for student in api_entidades["students"]:
+        if student["id"] == id:
+            api_entidades["students"].remove(student)
+            return make_response(jsonify(message="Successful deletion"))
+    return jsonify({"error": "Student not found"}), 404
+
 if __name__ == "__main__":
     app.run(debug=True)
-    
