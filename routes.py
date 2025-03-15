@@ -1,6 +1,6 @@
 from flask import jsonify, make_response, request
 from main import app
-from entities import api_entidades
+from apis.entities import api_entidades
 
 app.config['JSON_SORT_KEYS'] = False
 
