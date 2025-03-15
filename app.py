@@ -26,7 +26,7 @@ def get_id(id):
 def delete_student(id):
     for students in api_entidades['students']:
         if students['id'] == id:
-            return make_response(jsonify(messsage='Excluido', data=students))
+            return make_response(jsonify(messsage='Excluido', data=api_entidades['students'].remove(students)))
         
     pass
 if __name__ == "__main__":
