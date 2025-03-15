@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, make_response, request
+from flask import Flask, jsonify, make_response, request, url_for, redirect
 from students import api_entidades
 
 app = Flask(__name__)
+
 app.config['JSON_SORT_KEYS'] = False
 
-@app.route("/alunos/", methods=['GET'])
+@app.route("/alunos", methods=['GET'])
 def get_students():
     return make_response(jsonify(message='Lista de estudantes', data=api_entidades))
 
@@ -20,14 +21,14 @@ def get_id(id):
         if i['id'] == id:
             return jsonify(i)
     return jsonify({"error": "student not found"}), 404
-    
 
+@app.route("/alunos/<int:id>", methods=['DELETE'])
+def delete_student(id):
+    for students in api_entidades['students']:
+        if students['id'] == id:
+            return make_response(jsonify(messsage='Excluido', data=api_entidades['students'].remove(students)))
+        
+    pass
 if __name__ == "__main__":
     app.run(debug=True)
     
-    
-
-# for i in api_entidades['students']:
-#     if i['id'] == 1:
-#         print(i)
-
