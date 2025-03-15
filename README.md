@@ -1,25 +1,32 @@
-<h1>Projeto API de Turmas, Professores e Alunos </h1>
-<h2>Comandos básicos do projeto</h2>
-<ul>
-<li>Criar ambiente</li>
-<li>python -m venv nome_do_ambiente</li>
+# 🎓 Projeto API - School System  
 
-<li>Ativar ambiente Linux ou MacOs</li>
-<li>source ./venv/bin/actvate</li>
+## ⚙️ Comandos Básicos  
 
-<li>Ativar ambiente Windows</li>
-<li>nome_venv/Script/activate</li>
+### 🏗 Criar Ambiente Virtual  
+```bash
+python -m venv nome_do_ambiente
+```
 
-<li>Instalar dependências</li>
-<li>pip install -r requirements.txt</li>
+### 🔥 Ativar Ambiente  
+**Windows:**  
+```bash
+.\nome_do_ambiente\Scripts\activate
+```
+**Linux ou macOS:**  
+```bash
+source ./venv/bin/activate
+```
 
-<li>pip freeze > requirements.txt</li>
-</ul>
+### ❌ Desativar Ambiente  
+```bash
+deactivate
+```
 
-<h2>Caso não tenha o Flask instalado</h2> 
+### 📦 Instalar Dependências  
+```bash
+pip install -r requirements.txt
+```
 
-<ul>
-    <li>pip install flask</li>
-    <li>abra o cmd e digite "flask --version" para ver a versão instalada
-</ul>
-
+### 📌 Atualizar Dependências  
+```bash
+pip freeze > requirements.txt
