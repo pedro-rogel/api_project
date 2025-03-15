@@ -1,7 +1,6 @@
-from flask import Flask, jsonify, make_response, request, url_for, redirect
+from flask import jsonify, make_response, request
+from main import app
 from entities import api_entidades
-
-app = Flask(__name__)
 
 app.config['JSON_SORT_KEYS'] = False
 
@@ -40,6 +39,3 @@ def delete_student(id):
             api_entidades["students"].remove(student)
             return make_response(jsonify(message="Successful deletion"))
     return jsonify({"error": "Student not found"}), 404
-
-if __name__ == "__main__":
-    app.run(debug=True)
