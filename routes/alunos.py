@@ -1,21 +1,22 @@
-from flask import jsonify, request
-from main import app
+from flask import Blueprint, jsonify, request
 from apis.entities import api_entidades
+
+alunos_bp = Blueprint("alunos", __name__)
 
 alunos = api_entidades["alunos"]
 
-@app.route("/alunos", methods=['GET'])
+@alunos_bp.route("/alunos", methods=['GET'])
 def get_student():
     return jsonify(alunos)
 
-@app.route(f"/alunos/<int:id>", methods=['GET'])
+@alunos_bp.route("/alunos/<int:id>", methods=['GET'])
 def get_student_id(id):
     for aluno in alunos:
         if aluno["id"] == id:
             return jsonify(aluno)
     return jsonify({"erro":"aluno nao encontrado"}), 404
 
-@app.route("/alunos", methods=['POST'])
+@alunos_bp.route("/alunos", methods=['POST'])
 def create_student():
     novo_aluno = request.json
     if not any(aluno["id"] == novo_aluno["id"] for aluno in alunos):
@@ -23,7 +24,7 @@ def create_student():
         return jsonify(message="criado com sucesso")
     return jsonify({"erro":"id ja utilizada"}), 400
 
-@app.route("/alunos/<int:id>", methods=['PUT'])
+@alunos_bp.route("/alunos/<int:id>", methods=['PUT'])
 def update_student(id):
     for aluno in alunos:
         if aluno["id"] == id:
@@ -32,7 +33,7 @@ def update_student(id):
             return jsonify(message="atualizado com sucesso")
     return jsonify({"erro":"aluno nao encontrado"}), 404
 
-@app.route("/alunos/<int:id>", methods=['DELETE'])
+@alunos_bp.route("/alunos/<int:id>", methods=['DELETE'])
 def delete_student(id):
     for aluno in alunos:
         if aluno["id"] == id:
@@ -40,7 +41,7 @@ def delete_student(id):
             return jsonify(message="deletado com sucesso")
     return jsonify({"erro":"aluno nao encontrado"}), 404
 
-@app.route("/reseta", methods=['POST'])
+@alunos_bp.route("/reseta", methods=['POST'])
 def reset_server():
     alunos.clear()
     return jsonify(message="resetado com sucesso")
