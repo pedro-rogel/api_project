@@ -135,7 +135,6 @@ class TestStringMethods(unittest.TestCase):
 
         self.assertEqual(r.json()['erro'],'aluno nao encontrado')
     
-
     def test_006b_id_inexistente_no_get(self):
 
         r_reset = requests.post('http://localhost:5002/reseta')
@@ -167,33 +166,24 @@ class TestStringMethods(unittest.TestCase):
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'id ja utilizada')
 
-
-    #cria alunos sem nome, o que tem que dar erro
     def test_008a_post_sem_nome(self):
         r_reset = requests.post('http://localhost:5002/reseta')
         self.assertEqual(r_reset.status_code,200)
 
-        #tentei criar um aluno, sem enviar um nome
         r = requests.post('http://localhost:5002/alunos',json={'id':8})
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'aluno sem nome')
     
-    #tenta editar alunos sem passar nome, o que também
-    #tem que dar erro (se vc nao mudar o nome, vai mudar o que?)
     def test_008b_put_sem_nome(self):
         r_reset = requests.post('http://localhost:5002/reseta')
         self.assertEqual(r_reset.status_code,200)
 
-        #criei um aluno sem problemas
         r = requests.post('http://localhost:5002/alunos',json={'nome':'maximus','id':7})
         self.assertEqual(r.status_code,200)
 
-        #mas tentei editar ele sem mandar o nome
         r = requests.put('http://localhost:5002/alunos/7',json={'id':7})
         self.assertEqual(r.status_code,400)
         self.assertEqual(r.json()['erro'],'aluno sem nome')
-    
-
     
     def test_100_professores_retorna_lista(self):
         r = requests.get('http://localhost:5002/professores')
@@ -231,8 +221,6 @@ class TestStringMethods(unittest.TestCase):
         r_lista = requests.get('http://localhost:5002/professores/20')
         self.assertEqual(r_lista.json()['nome'],'mario')
 
-
-    
     def test_103_adiciona_e_reseta(self):
         r = requests.post('http://localhost:5002/professores',json={'nome':'cicero','id':29})
         r_lista = requests.get('http://localhost:5002/professores')
