@@ -12,8 +12,7 @@ api_entidades =  {
         }
     ],
 
-
-        "professores": [
+    "professores": [
         {
             "id": 100,
             "nome": "João Augusto",
@@ -24,8 +23,7 @@ api_entidades =  {
         }
     ],
 
-
-        "turmas": [
+    "turmas": [
         {
             "id": 100,
             "nome": "ADS",
