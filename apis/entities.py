@@ -1,55 +1,50 @@
-import json
-
 api_entidades =  {
-    "students": [
+    "alunos": [
     {
-        "id": 1,
-        "name": "Felippe", 
+        "id": 1000,
+        "nome": "Felippe", 
     },
     {
-        "id": 2,
-        "name": "Fernando",
+        "id": 2000,
+        "nome": "Fernando",
     },
     {
-        "id": 3,
-        "name": "Gustavo",
+        "id": 3000,
+        "nome": "Gustavo",
     },
     {
-        "id": 4,
-        "name": "Murillo",
+        "id": 4000,
+        "nome": "Murillo",
     },
     {
-        "id": 5,
-        "name": "Pedro",
+        "id": 5000,
+        "nome": "Pedro",
     }],
 
 
-    "professors": [
+    "professores": [
     {
-        "id": 1,
-        "name": "João", 
+        "id": 1000,
+        "nome": "João", 
     },
     {
-        "id": 2,
-        "name": "Mário",
+        "id": 2000,
+        "nome": "Mário",
     },
     {
-        "id": 3,
-        "name": "Antônio",
+        "id": 3000,
+        "nome": "Antônio",
     }],
 
 
-    "classes": [
+    "turmas": [
     {
-        "id": 1,
-        "name": "ADS", 
+        "id": 1000,
+        "nome": "ADS", 
     },
     {
-        "id": 2,
-        "name": "SI",
+        "id": 2000,
+        "nome": "SI",
     },
     ]
 }
-
-def output_formatted():
-    return json.dumps(api_entidades, indent=4, ensure_ascii=False)
