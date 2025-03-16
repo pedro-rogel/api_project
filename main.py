@@ -11,7 +11,7 @@ app.register_blueprint(turmas_bp)
 
 @app.route("/")
 def homepage():
-    return "Página principal"
+    return "Página raiz"
 
 @app.route("/reseta", methods=['POST'])
 def reset_server():
