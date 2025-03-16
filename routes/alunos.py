@@ -14,11 +14,13 @@ def get_student_id(id):
     for aluno in alunos:
         if aluno["id"] == id:
             return jsonify(aluno)
-    return jsonify({"erro":"aluno nao encontrado"}), 404
+    return jsonify({"erro":"aluno nao encontrado"}), 400
 
 @alunos_bp.route("/alunos", methods=['POST'])
 def create_student():
     novo_aluno = request.json
+    if not novo_aluno.get("nome"):
+        return jsonify({"erro":"aluno sem nome"}), 400
     if not any(aluno["id"] == novo_aluno["id"] for aluno in alunos):
         alunos.append(novo_aluno)
         return jsonify(message="criado com sucesso")
@@ -29,9 +31,11 @@ def update_student(id):
     for aluno in alunos:
         if aluno["id"] == id:
             atualizar_nome = request.json
+            if not atualizar_nome.get("nome"):
+                return jsonify({"erro":"aluno sem nome"}), 400
             aluno["nome"] = atualizar_nome["nome"]
             return jsonify(message="atualizado com sucesso")
-    return jsonify({"erro":"aluno nao encontrado"}), 404
+    return jsonify({"erro":"aluno nao encontrado"}), 400
 
 @alunos_bp.route("/alunos/<int:id>", methods=['DELETE'])
 def delete_student(id):
@@ -39,9 +43,4 @@ def delete_student(id):
         if aluno["id"] == id:
             alunos.remove(aluno)
             return jsonify(message="deletado com sucesso")
-    return jsonify({"erro":"aluno nao encontrado"}), 404
-
-@alunos_bp.route("/reseta", methods=['POST'])
-def reset_server():
-    alunos.clear()
-    return jsonify(message="resetado com sucesso")
+    return jsonify({"erro":"aluno nao encontrado"}), 400
