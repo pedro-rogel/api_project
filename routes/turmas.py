@@ -14,7 +14,7 @@ def get_turmas_id(id):
     for turma in turmas:
         if turma["id"] == id:
             return jsonify(turma)
-        return jsonify(erro="turma nao encontrada"), 400
+    return jsonify(erro="turma nao encontrada"), 400
 
 @turmas_bp.route("/turmas", methods=['POST'])
 def create_turma():
