@@ -55,7 +55,7 @@ class Professor(Pessoa):
         self.salario = salario
 
     def get(self):
-        return self.id, self.nome, self.idade, self.data_de_nascimento, self.disciplina, self.salario
+        return [self.id, self.nome, self.idade, self.data_de_nascimento, self.disciplina, self.salario]
 
 
 class Turma():
@@ -66,7 +66,7 @@ class Turma():
         self.professor_id = professor_id
 
     def get(self):
-        return self.id, self.nome, self.turno, self.professor_id
+        return [self.id, self.nome, self.turno, self.professor_id]
 
 
 api_entidades = {
@@ -107,23 +107,46 @@ turma_test = Turma(
 )
 
 
-def converter_para_dicionario(tupla):
+def converter_aluno_dici(descompactando):
     aluno = {
-        "id": tupla[0],
-        "nome": tupla[1],
-        "idade": tupla[2],
-        "data_nascimento": tupla[3],
-        "nota_primeiro_semestre": tupla[4],
-        "nota_segundo_semestre": tupla[5],
-        "media_final": tupla[6],
-        "turma_id": tupla[7]
+        "id": descompactando[0],
+        "nome": descompactando[1],
+        "idade": descompactando[2],
+        "data_nascimento": descompactando[3],
+        "nota_primeiro_semestre": descompactando[4],
+        "nota_segundo_semestre": descompactando[5],
+        "media_final": descompactando[6],
+        "turma_id": descompactando[7]
     }
     return aluno
+
+def converter_professor_dici(descompactando):
+    professor = {
+        "id": descompactando[0],
+        "nome": descompactando[1],
+        "idade": descompactando[2],
+        "data_nascimento": descompactando[3],
+        "disciplina": descompactando[4],
+        "salario": descompactando[5]
+    }
+    return professor
+
+def converter_turma_dici(descompactando):
+    turma = {
+        "id": descompactando[0],
+        "nome": descompactando[1],
+        "turma": descompactando[2],
+        "professor_id": descompactando[3],
+    }
+    return turma
+
 
 def output_json(entidades):
     return json.dumps(entidades, indent=4, ensure_ascii=False)
 
 
-api_entidades["Alunos"].append(converter_para_dicionario(aluno_test.get()))
+api_entidades["Alunos"].append(converter_aluno_dici(aluno_test.get()))
+api_entidades["Professores"].append(converter_professor_dici(professor_test.get()))
+api_entidades["Turmas"].append(converter_turma_dici(aluno_test.get()))
 
 print(output_json(api_entidades))
