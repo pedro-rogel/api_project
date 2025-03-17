@@ -1,3 +1,25 @@
+import datetime
+def dateAge(birthDate):
+    date = birthDate.split("/")
+    year = 0
+    if len(date[0]) == 4:
+        year = int(date[0])
+    else:
+        return "Digitação da data inesperada" 
+    month = int(date[1])
+    day = int(date[2])
+    dateToday = datetime.date.today()
+    if month < int(dateToday.month):
+        idade = dateToday.year - year
+    elif month == dateToday.month:
+        if day <= dateToday.day:
+            idade = dateToday.year - year
+        else:
+            idade = (dateToday.year - year) - 1
+    else:
+        idade = (dateToday.year - year) - 1
+    return idade
+
 api_entidades =  {
     "alunos": [
         {
@@ -31,4 +53,6 @@ api_entidades =  {
             "professor_id": 100
         }
     ]
-}
+} 
+
+print(dateAge(api_entidades["professores"][0]["data_nascimento"])) 
