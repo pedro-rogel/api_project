@@ -1,0 +1,36 @@
+name: Delete Merged Branch
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  delete_merged_branch:
+    runs-on: ubuntu-latest
+    # Condição para rodar somente se o PR foi mergeado e se a base é 'homol'
+    if: >
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'homol'
+    steps:
+      - name: Delete the head branch
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branchRef = context.payload.pull_request.head.ref;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            // Caso você queira evitar deletar branches específicas, coloque condições aqui.
+            // Exemplo: não deletar se for 'main' ou 'homol' (normalmente não faz sentido, mas fica a critério).
+            if (branchRef === 'main' || branchRef === 'homol') {
+              return;
+            }
+
+            await github.git.deleteRef({
+              owner,
+              repo,
+              ref: `heads/${branchRef}`,
+            });
+
+            core.info(`Branch ${branchRef} foi excluída com sucesso!`);
