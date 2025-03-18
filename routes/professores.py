@@ -20,16 +20,6 @@ def get_professor_id(id):
 @professores_bp.route("/professores", methods=['POST'])
 def create_professor():
     novo_professor = request.json
-    if not novo_professor.get("nome"):
-        return jsonify(erro="professor sem nome"), 400
-    if not any(professor["id"] == novo_professor["id"] for professor in professores):
-        professores.append(novo_professor)
-        return jsonify(message="criado com sucesso")
-    return jsonify(erro="id ja utilizada"), 400
-
-@professores_bp.route("/professores", methods=['POST'])
-def create_professor():
-    novo_professor = request.json
     if not novo_professor.get("id"):
         return jsonify(erro="professor sem id"), 400
     if not novo_professor.get("nome"):
