@@ -17,12 +17,12 @@ api_entidades = {
 # Teste para verificar funcionalidade da atribuição utilizando objetos das classes de entidades
 
 # aluno_test = Aluno(
-#     1,                                    # ID
-#     "Felipe Santos",                      # Nome
-#     "2004/04/19",                         # Data de Nascimento
-#     7.5,                                  # Nota 01 
-#     10.0,                                 # Nota 02
-#     1,                                    # ID da Turma
+#     "id": 1,                                    # ID
+#     "nome":"Felipe Santos",                     # Nome
+#     "data_nascimento": "2004/04/19",            # Data de Nascimento
+#     "nota_primeiro_semestre":7.5,               # Nota 01 
+#     "nota_segundo_semestre":10.0,               # Nota 02
+#     "turma_id" : 1,                             # ID da Turma
 # )
 
 # professor_test = Professor(

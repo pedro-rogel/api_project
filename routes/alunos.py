@@ -46,6 +46,14 @@ def update_student(id):
             if not atualizacao.get("nome"):
                 return jsonify(erro="aluno sem nome"), 400
             aluno["nome"] = atualizacao["nome"]
+            if atualizacao.get("data_nascimento"):
+                aluno['data_nascimento'] = atualizacao['data_nascimento']
+                aluno['idade'] = atribuir_idade(aluno['data_nascimento'])
+            if atualizacao.get("nota_primeiro_semestre"):
+                aluno['nota_primeiro_semestre'] = atualizacao['nota_primeiro_semestre']
+            if atualizacao.get("nota_segundo_semestre"):
+                aluno['nota_segundo_semestre'] = atualizacao['nota_segundo_semestre']
+            aluno['media_final'] = media(aluno['nota_primeiro_semestre'], aluno['nota_segundo_semestre'] )
             return jsonify(message="atualizado com sucesso")
     return jsonify(erro="aluno nao encontrado"), 400
 
