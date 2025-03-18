@@ -38,7 +38,7 @@ def create_student():
          return jsonify(erro="aluno sem data de nascimento"),400
     if not any(aluno["id"] == novo_aluno["id"] for aluno in alunos):
         obj_aluno = Aluno(novo_aluno["id"], novo_aluno['nome'], novo_aluno['data_nascimento'], novo_aluno['nota_primeiro_semestre'], novo_aluno['nota_segundo_semestre'], novo_aluno['turma_id'])
-        alunos.append(converter_aluno_dici(obj_aluno.get()))
+        alunos.append(obj_aluno.converter_aluno_dici())
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 
@@ -68,5 +68,3 @@ def delete_student(id):
             alunos.remove(aluno)
             return jsonify(message="deletado com sucesso")
     return jsonify(erro="aluno nao encontrado"), 400
-
-

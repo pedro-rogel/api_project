@@ -1,5 +1,4 @@
 import datetime
-from routes.alunos import jsonify
 
 class Pessoa:
     def __init__(self, id, nome, data_de_nascimento):
@@ -13,27 +12,31 @@ class Aluno(Pessoa):
         self.id = id
         self.nome = nome
         self.data_nascimento = data_nascimento
-        self.__idade = atribuir_idade(self.data_nascimento)
+        self.idade = atribuir_idade(self.data_nascimento)
         self.nota_primeiro_semestre = nota_primeiro_semestre
         self.nota_segundo_semestre = nota_segundo_semestre
-        self.__media_final = media(self.nota_primeiro_semestre, self.nota_segundo_semestre)
+        self.media_final = media(self.nota_primeiro_semestre, self.nota_segundo_semestre)
         self.turma_id = turma_id
-
-    def get(self):
-        return self.id, self.nome, self.__idade, self.data_nascimento, self.nota_primeiro_semestre, self.nota_segundo_semestre, self.__media_final, self.turma_id
+    
+    def converter_aluno_dici(self):
+        atribuir_aluno = self.id, self.nome, self.idade, self.data_nascimento, self.nota_primeiro_semestre, self.nota_segundo_semestre, self.media_final, self.turma_id
+        dados_alunos = ["id", "nome", "idade", "data_nascimento", "nota_primeiro_semestre", "nota_segundo_semestre", "media_final", "turma_id"]
+        return dict(zip(dados_alunos, atribuir_aluno))
 
 class Professor(Pessoa):
     def __init__(self, id, nome, data_nascimento, disciplina, salario):
         super().__init__(id, nome, data_nascimento)
         self.id = id
         self.nome = nome
-        self.__idade = atribuir_idade(self.data_nascimento)
+        self.idade = atribuir_idade(self.data_nascimento)
         self.data_nascimento = data_nascimento
         self.disciplina = disciplina
         self.salario = salario
 
-    def get(self):
-        return self.id, self.nome, self.__idade, self.data_nascimento, self.disciplina, self.salario
+    def converter_professor_dici(self):
+        atribuir_professor = self.id, self.nome, self.idade, self.data_nascimento, self.disciplina, self.salario
+        dados_professores = ["id", "nome", "idade", "data_nascimento", "disciplina", "salario"]
+        return dict(zip(dados_professores, atribuir_professor))
 
 class Turma():
     def __init__(self, id, nome, turno, professor_id):
@@ -42,20 +45,10 @@ class Turma():
         self.turno = turno
         self.professor_id = professor_id
 
-    def get(self):
-        return self.id, self.nome, self.turno, self.professor_id
-
-def converter_aluno_dici(atribuir_aluno):
-    dados_alunos = ["id", "nome", "idade", "data_nascimento", "nota_primeiro_semestre", "nota_segundo_semestre", "media_final", "turma_id"]
-    return dict(zip(dados_alunos, atribuir_aluno))
-
-def converter_professor_dici(atribuir_professor):
-    dados_professores = ["id", "nome", "idade", "data_nascimento", "disciplina", "salario"]
-    return dict(zip(dados_professores, atribuir_professor))
-
-def converter_turma_dici(atribuir_turma):
-    dados_turmas = ["id", "nome", "turno", "professor_id"]
-    return dict(zip(dados_turmas, atribuir_turma))
+    def converter_turma_dici(self):
+        atribuir_turma = self.id, self.nome, self.turno, self.professor_id
+        dados_turmas = ["id", "nome", "turno", "professor_id"]
+        return dict(zip(dados_turmas, atribuir_turma))
 
 def atribuir_idade(birthDate):
     data = birthDate.split("/")

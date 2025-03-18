@@ -30,7 +30,7 @@ def create_turma():
         return jsonify(erro="turma sem professor"), 400
     if not any(turma["id"] == nova_turma["id"] for turma in turmas):
         obj_turma = Turma(nova_turma["id"], nova_turma['nome'], nova_turma['turno'], nova_turma['professor_id'])
-        turmas.append(converter_turma_dici(obj_turma.get()))
+        turmas.append(obj_turma.converter_turma_dici())
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 

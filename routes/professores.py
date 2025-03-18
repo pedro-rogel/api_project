@@ -32,7 +32,7 @@ def create_professor():
         return jsonify(erro="professor sem salario"), 400
     if not any(professor["id"] == novo_professor["id"] for professor in professores):
         obj_professor = Professor(novo_professor["id"], novo_professor['nome'], novo_professor['data_nascimento'], novo_professor['disciplina'], novo_professor['salario'])
-        professores.append(converter_professor_dici(obj_professor.get()))
+        professores.append(obj_professor.converter_professor_dici())
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 
