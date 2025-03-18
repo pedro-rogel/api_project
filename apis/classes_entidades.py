@@ -1,4 +1,5 @@
 import datetime
+from routes.alunos import jsonify
 
 class Pessoa:
     def __init__(self, id, nome, data_de_nascimento):
@@ -59,7 +60,7 @@ def converter_turma_dici(atribuir_turma):
 def atribuir_idade(birthDate):
     data = birthDate.split("/")
     if not len(data[0]) == 4:
-        return
+        return 
     ano = int(data[0])
     mes = int(data[1])
     dia = int(data[2])

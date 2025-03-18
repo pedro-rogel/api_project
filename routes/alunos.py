@@ -24,14 +24,18 @@ def create_student():
         return jsonify(erro="aluno sem id"), 400
     if not novo_aluno.get("nome"):
         return jsonify(erro="aluno sem nome"), 400
-    if not novo_aluno.get("data_nascimento"):
-        return jsonify(erro="aluno sem data de nascimento"), 400
     if not novo_aluno.get("nota_primeiro_semestre"):
         return jsonify(erro="aluno sem primeira nota"), 400
     if not novo_aluno.get("nota_segundo_semestre"):
         return jsonify(erro="aluno sem segunda nota"), 400
     if not novo_aluno.get("turma_id"):
         return jsonify(erro="aluno sem turma"), 400
+    if novo_aluno.get("data_nascimento"):
+        split = novo_aluno.get("data_nascimento").split('/')
+        if not len(split[0]) == 4:
+            return jsonify(erro="formato da data incorreto, passe no formato 'YYYY/MM/DD"), 400
+    else:
+         return jsonify(erro="aluno sem data de nascimento"),400
     if not any(aluno["id"] == novo_aluno["id"] for aluno in alunos):
         obj_aluno = Aluno(novo_aluno["id"], novo_aluno['nome'], novo_aluno['data_nascimento'], novo_aluno['nota_primeiro_semestre'], novo_aluno['nota_segundo_semestre'], novo_aluno['turma_id'])
         alunos.append(converter_aluno_dici(obj_aluno.get()))
@@ -64,3 +68,5 @@ def delete_student(id):
             alunos.remove(aluno)
             return jsonify(message="deletado com sucesso")
     return jsonify(erro="aluno nao encontrado"), 400
+
+
