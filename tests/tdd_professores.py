@@ -224,7 +224,7 @@ class TestStringMethods(unittest.TestCase):
             })
         self.assertEqual(r.status_code,200)
         r = requests.post('http://localhost:5002/professores',json={
-            "id": 1,
+            "id": 2,
             "nome": "Fernanda Santos",
             "data_nascimento": "1993/10/02",
             "disciplina": "Lógica de Programação",
