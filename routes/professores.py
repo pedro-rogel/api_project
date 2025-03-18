@@ -44,6 +44,13 @@ def update_professor(id):
             if not atualizacao.get("nome"):
                 return jsonify(erro="professor sem nome"), 400
             professor["nome"] = atualizacao["nome"]
+            if atualizacao.get("data_nascimento"):
+                professor["data_nascimento"] = atualizacao['data_nascimento']
+                professor["idade"] = atribuir_idade(professor['data_nascimento'])
+            if atualizacao.get("salario"):
+                professor["salario"] = atualizacao["salario"]
+            if atualizacao.get("discipina"):
+                professor["disciplina"] = atualizacao["disciplina"]
             return jsonify(message="atualizado com sucesso")
     return jsonify(erro="professor nao encontrado"), 400
 

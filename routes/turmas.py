@@ -42,6 +42,10 @@ def update_turma(id):
             if not atualizacao.get("nome"):
                 return jsonify(erro="turma sem nome"), 400
             turma["nome"] = atualizacao["nome"]
+            if atualizacao.get("turno"):
+                turma["turno"] = atualizacao["turno"]
+            if atualizacao.get("professor_id"):
+                turma["professor_id"] = atualizacao["professor_id"]
             return jsonify(message="atualizado com sucesso")
     return jsonify(erro="turma nao encontrada"), 400
 
