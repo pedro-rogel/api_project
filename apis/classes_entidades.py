@@ -15,7 +15,7 @@ class Aluno(Pessoa):
         self.__idade = atribuir_idade(self.data_nascimento)
         self.nota_primeiro_semestre = nota_primeiro_semestre
         self.nota_segundo_semestre = nota_segundo_semestre
-        self.__media_final = media_final(self.nota_primeiro_semestre, self.nota_segundo_semestre)
+        self.__media_final = media(self.nota_primeiro_semestre, self.nota_segundo_semestre)
         self.turma_id = turma_id
 
     def get(self):
@@ -45,37 +45,16 @@ class Turma():
         return self.id, self.nome, self.turno, self.professor_id
 
 def converter_aluno_dici(atribuir_aluno):
-    aluno = {
-        "id": atribuir_aluno[0],
-        "nome": atribuir_aluno[1],
-        "idade": atribuir_aluno[2],
-        "data_nascimento": atribuir_aluno[3],
-        "nota_primeiro_semestre": atribuir_aluno[4],
-        "nota_segundo_semestre": atribuir_aluno[5],
-        "media_final": atribuir_aluno[6],
-        "turma_id": atribuir_aluno[7]
-    }
-    return aluno
+    dados_alunos = ["id", "nome", "idade", "data_nascimento", "nota_primeiro_semestre", "nota_segundo_semestre", "media_final", "turma_id"]
+    return dict(zip(dados_alunos, atribuir_aluno))
 
 def converter_professor_dici(atribuir_professor):
-    professor = {
-        "id": atribuir_professor[0],
-        "nome": atribuir_professor[1],
-        "idade": atribuir_professor[2],
-        "data_nascimento": atribuir_professor[3],
-        "disciplina": atribuir_professor[4],
-        "salario": atribuir_professor[5]
-    }
-    return professor
+    dados_professores = ["id", "nome", "idade", "data_nascimento", "disciplina", "salario"]
+    return dict(zip(dados_professores, atribuir_professor))
 
 def converter_turma_dici(atribuir_turma):
-    turma = {
-        "id": atribuir_turma[0],
-        "nome": atribuir_turma[1],
-        "turno": atribuir_turma[2],
-        "professor_id": atribuir_turma[3],
-    }
-    return turma
+    dados_turmas = ["id", "nome", "turno", "professor_id"]
+    return dict(zip(dados_turmas, atribuir_turma))
 
 def atribuir_idade(birthDate):
     data = birthDate.split("/")
@@ -96,5 +75,5 @@ def atribuir_idade(birthDate):
         idade = (data_atual.year - ano) - 1
     return idade
 
-def media_final(nota1, nota2):
+def media(nota1, nota2):
     return (nota1 + nota2) / 2
