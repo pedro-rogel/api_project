@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from apis.entidades import api_entidades
+from apis.classes_entidades import *
 
 turmas_bp = Blueprint("turmas", __name__)
 
@@ -19,10 +20,17 @@ def get_turmas_id(id):
 @turmas_bp.route("/turmas", methods=['POST'])
 def create_turma():
     nova_turma = request.json
+    if not nova_turma.get("id"):
+        return jsonify(erro="turma sem id"), 400
     if not nova_turma.get("nome"):
         return jsonify(erro="turma sem nome"), 400
+    if not nova_turma.get("turno"):
+        return jsonify(erro="turma sem turno"), 400
+    if not nova_turma.get("professor_id"):
+        return jsonify(erro="turma sem professor"), 400
     if not any(turma["id"] == nova_turma["id"] for turma in turmas):
-        turmas.append(nova_turma)
+        obj_turma = Turma(nova_turma["id"], nova_turma['nome'], nova_turma['turno'], nova_turma['professor_id'])
+        turmas.append(converter_turma_dici(obj_turma.get()))
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 

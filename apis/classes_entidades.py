@@ -72,7 +72,7 @@ def converter_turma_dici(atribuir_turma):
     turma = {
         "id": atribuir_turma[0],
         "nome": atribuir_turma[1],
-        "turma": atribuir_turma[2],
+        "turno": atribuir_turma[2],
         "professor_id": atribuir_turma[3],
     }
     return turma
