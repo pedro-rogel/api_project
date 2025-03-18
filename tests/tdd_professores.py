@@ -16,9 +16,23 @@ class TestStringMethods(unittest.TestCase):
 
     def test_002_professores_post_nao_confundir_professor_e_aluno(self):
         r_reset = requests.post('http://localhost:5002/reseta')
-        r = requests.post('http://localhost:5002/alunos',json={'nome':'fernando','id':1})
+        r = requests.post('http://localhost:5002/alunos',json={
+            "id": 101,
+            "nome": "Pedro",
+            "data_nascimento": "2006/06/01",
+            "nota_primeiro_semestre": 5,
+            "nota_segundo_semestre": 8,
+            "turma_id": 1
+            })
         self.assertEqual(r.status_code,200)
-        r = requests.post('http://localhost:5002/alunos',json={'nome':'roberto','id':2})
+        r = requests.post('http://localhost:5002/alunos',json={
+            "id": 102,
+            "nome": "Gustavo",
+            "data_nascimento": "2003/03/11",
+            "nota_primeiro_semestre": 10,
+            "nota_segundo_semestre": 10,
+            "turma_id": 1
+            })
         self.assertEqual(r.status_code,200)
         r_lista = requests.get('http://localhost:5002/professores')
         self.assertEqual(len(r_lista.json()),0)
