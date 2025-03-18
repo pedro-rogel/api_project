@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
-from apis.entities import api_entidades
-from apis.entities_test import *
+from apis.entidades import api_entidades
+from apis.classes_entidades import *
 
 alunos_bp = Blueprint("alunos", __name__)
 
