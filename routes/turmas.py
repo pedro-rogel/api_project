@@ -31,13 +31,17 @@ def create_turma():
         return jsonify(erro="turma sem nome"), 400
     if not nova_turma.get("turno"):
         return jsonify(erro="turma sem turno"), 400
+    if not nova_turma.get("descricao"):
+        return jsonify(erro="Turma sem descrição"),400
+    if not nova_turma.get("status"):
+        return jsonify(erro="turma sem status"), 400
     if not nova_turma.get("professor_id"):
         return jsonify(erro="turma sem professor"), 400
     else:
         if not any(professor["id"] == nova_turma["professor_id"] for professor in professores):
             return jsonify(erro="Id do professor não encontrado"), 400
     if not any(turma["id"] == nova_turma["id"] for turma in turmas):
-        obj_turma = Turma(nova_turma["id"], nova_turma['nome'], nova_turma['turno'], nova_turma['professor_id'])
+        obj_turma = Turma(nova_turma["id"], nova_turma['nome'], nova_turma['turno'], nova_turma['professor_id'], nova_turma['descricao'], nova_turma['status'])
         turmas.append(obj_turma.converter_turma_dici())
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
@@ -49,6 +53,10 @@ def update_turma(id):
             atualizacao = request.json
             if not atualizacao.get("nome"):
                 return jsonify(erro="turma sem nome"), 400
+            if atualizacao.get("descricao"):
+                turma['descricao'] = atualizacao['descricao']
+            if atualizacao.get("status"):
+                turma['status'] = atualizacao['status']
             turma["nome"] = atualizacao["nome"]
             if atualizacao.get("turno"):
                 turma["turno"] = atualizacao["turno"]

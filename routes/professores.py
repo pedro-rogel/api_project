@@ -29,10 +29,12 @@ def create_professor():
         return jsonify(erro="professor sem data de nascimento"), 400
     if not novo_professor.get("disciplina"):
         return jsonify(erro="professor sem disciplina"), 400
+    if not novo_professor.get("descricao"):
+        return jsonify(erro="professor sem descrição"), 400
     if not novo_professor.get("salario"):
         return jsonify(erro="professor sem salario"), 400
     if not any(professor["id"] == novo_professor["id"] for professor in professores):
-        obj_professor = Professor(novo_professor["id"], novo_professor['nome'], novo_professor['data_nascimento'], novo_professor['disciplina'], novo_professor['salario'])
+        obj_professor = Professor(novo_professor["id"], novo_professor['nome'], novo_professor['data_nascimento'], novo_professor['disciplina'], novo_professor['salario'], novo_professor['descricao'])
         professores.append(obj_professor.converter_professor_dici())
 
         return jsonify(message="criado com sucesso")
@@ -55,6 +57,9 @@ def update_professor(id):
                 professor["salario"] = atualizacao["salario"]
             if atualizacao.get("discipina"):
                 professor["disciplina"] = atualizacao["disciplina"]
+            if atualizacao.get("descricao"):
+                professor["descricao"] = atualizacao["descricao"]
+            
             return jsonify(message="atualizado com sucesso")
     return jsonify(erro="professor nao encontrado"), 400
 
