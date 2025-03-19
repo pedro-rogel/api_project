@@ -19,6 +19,8 @@ def get_student_id(id):
 
 @alunos_bp.route("/alunos", methods=['POST'])
 def create_student():
+    if not api_entidades['turmas']:
+        return jsonify(erro="Não há turmas criadas"),400
     novo_aluno = request.json
     if not novo_aluno.get('id'):
         novo_aluno['id'] = alunos[-1]["id"] + 1 if alunos else 1   
@@ -34,6 +36,12 @@ def create_student():
         return jsonify(erro='Nota segundo semestre inválida'), 400
     if not novo_aluno.get("turma_id"):
         return jsonify(erro="aluno sem turma"), 400
+    else:
+        for turma in api_entidades['turmas']:
+            if novo_aluno.get("turma_id") == turma['id']:
+                novo_aluno['turma_id'] = turma['id']
+            else:
+                return jsonify(erro="Id da turma não encontrado"),400
     if novo_aluno.get("data_nascimento"):
         split = novo_aluno.get("data_nascimento").split('/')
         if not len(split[0]) == 4:
@@ -79,3 +87,5 @@ def delete_student(id):
             alunos.remove(aluno)
             return jsonify(message="deletado com sucesso")
     return jsonify(erro="aluno nao encontrado"), 400
+
+
