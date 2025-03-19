@@ -6,6 +6,7 @@ professores_bp = Blueprint("professores", __name__)
 
 professores = api_entidades["professores"]
 
+        
 @professores_bp.route("/professores", methods=['GET'])
 def get_professores():
     return jsonify(professores)
@@ -33,6 +34,7 @@ def create_professor():
     if not any(professor["id"] == novo_professor["id"] for professor in professores):
         obj_professor = Professor(novo_professor["id"], novo_professor['nome'], novo_professor['data_nascimento'], novo_professor['disciplina'], novo_professor['salario'])
         professores.append(obj_professor.converter_professor_dici())
+
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 
@@ -44,6 +46,8 @@ def update_professor(id):
             if not atualizacao.get("nome"):
                 return jsonify(erro="professor sem nome"), 400
             professor["nome"] = atualizacao["nome"]
+            if atualizacao.get("id"):
+                professor['id'] = atualizacao['id']
             if atualizacao.get("data_nascimento"):
                 professor["data_nascimento"] = atualizacao['data_nascimento']
                 professor["idade"] = atribuir_idade(professor['data_nascimento'])
