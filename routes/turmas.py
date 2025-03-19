@@ -20,8 +20,8 @@ def get_turmas_id(id):
 @turmas_bp.route("/turmas", methods=['POST'])
 def create_turma():
     nova_turma = request.json
-    if not nova_turma.get("id"):
-        return jsonify(erro="turma sem id"), 400
+    if not nova_turma.get('id'):
+        nova_turma['id'] = turmas[-1]["id"] + 1 if turmas else 1   
     if not nova_turma.get("nome"):
         return jsonify(erro="turma sem nome"), 400
     if not nova_turma.get("turno"):

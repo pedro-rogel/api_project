@@ -20,8 +20,8 @@ def get_student_id(id):
 @alunos_bp.route("/alunos", methods=['POST'])
 def create_student():
     novo_aluno = request.json
-    if not novo_aluno.get("id"):
-        return jsonify(erro="aluno sem id"), 400
+    if not novo_aluno.get('id'):
+        novo_aluno['id'] = alunos[-1]["id"] + 1 if alunos else 1   
     if not novo_aluno.get("nome"):
         return jsonify(erro="aluno sem nome"), 400
     if not novo_aluno.get("nota_primeiro_semestre"):
