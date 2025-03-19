@@ -5,6 +5,7 @@ from apis.classes_entidades import *
 alunos_bp = Blueprint("alunos", __name__)
 
 alunos = api_entidades["alunos"]
+turmas = api_entidades['turmas']
 
 @alunos_bp.route("/alunos", methods=['GET'])
 def get_student():
@@ -37,11 +38,8 @@ def create_student():
     if not novo_aluno.get("turma_id"):
         return jsonify(erro="aluno sem turma"), 400
     else:
-        for turma in api_entidades['turmas']:
-            if novo_aluno.get("turma_id") == turma['id']:
-                novo_aluno['turma_id'] = turma['id']
-            else:
-                return jsonify(erro="Id da turma não encontrado"),400
+        if not any(turma["id"] == novo_aluno["turma_id"] for turma in turmas):
+            return jsonify(erro="Id da turma não encontrado"), 400
     if novo_aluno.get("data_nascimento"):
         split = novo_aluno.get("data_nascimento").split('/')
         if not len(split[0]) == 4:
@@ -76,6 +74,11 @@ def update_student(id):
                 else:
                     return jsonify(erro='Nota segundo semestre inválida'), 400
                 aluno['nota_segundo_semestre'] = atualizacao['nota_segundo_semestre']
+            if atualizacao.get("turma_id"):
+                if any(turma["id"] == atualizacao["turma_id"] for turma in turmas):
+                    aluno["turma_id"] = atualizacao["turma_id"]
+                else:
+                    return jsonify(erro="Id da turma não encontrado"), 400           
             aluno['media_final'] = media(aluno['nota_primeiro_semestre'], aluno['nota_segundo_semestre'] )
             return jsonify(message="atualizado com sucesso")
     return jsonify(erro="aluno nao encontrado"), 400
