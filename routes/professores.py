@@ -20,8 +20,8 @@ def get_professor_id(id):
 @professores_bp.route("/professores", methods=['POST'])
 def create_professor():
     novo_professor = request.json
-    if not novo_professor.get("id"):
-        return jsonify(erro="professor sem id"), 400
+    if not novo_professor.get('id'):
+        novo_professor['id'] = professores[-1]["id"] + 1 if professores else 1
     if not novo_professor.get("nome"):
         return jsonify(erro="professor sem nome"), 400
     if not novo_professor.get("data_nascimento"):
@@ -32,7 +32,7 @@ def create_professor():
         return jsonify(erro="professor sem salario"), 400
     if not any(professor["id"] == novo_professor["id"] for professor in professores):
         obj_professor = Professor(novo_professor["id"], novo_professor['nome'], novo_professor['data_nascimento'], novo_professor['disciplina'], novo_professor['salario'])
-        professores.append(converter_professor_dici(obj_professor.get()))
+        professores.append(obj_professor.converter_professor_dici())
         return jsonify(message="criado com sucesso")
     return jsonify(erro="id ja utilizada"), 400
 
