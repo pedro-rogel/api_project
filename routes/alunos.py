@@ -26,8 +26,12 @@ def create_student():
         return jsonify(erro="aluno sem nome"), 400
     if not novo_aluno.get("nota_primeiro_semestre"):
         return jsonify(erro="aluno sem primeira nota"), 400
+    if novo_aluno['nota_primeiro_semestre'] > 10 or novo_aluno['nota_primeiro_semestre'] < 0:
+        return jsonify(erro='Nota primeiro semestre inválida'), 400
     if not novo_aluno.get("nota_segundo_semestre"):
         return jsonify(erro="aluno sem segunda nota"), 400
+    if novo_aluno['nota_segundo_semestre'] > 10 or novo_aluno['nota_segundo_semestre'] < 0:
+        return jsonify(erro='Nota segundo semestre inválida'), 400
     if not novo_aluno.get("turma_id"):
         return jsonify(erro="aluno sem turma"), 400
     if novo_aluno.get("data_nascimento"):
@@ -54,8 +58,15 @@ def update_student(id):
                 aluno['data_nascimento'] = atualizacao['data_nascimento']
                 aluno['idade'] = atribuir_idade(aluno['data_nascimento'])
             if atualizacao.get("nota_primeiro_semestre"):
-                aluno['nota_primeiro_semestre'] = atualizacao['nota_primeiro_semestre']
+                if 0 <= atualizacao['nota_primeiro_semestre'] <= 10:
+                    aluno['nota_primeiro_semestre'] = atualizacao['nota_primeiro_semestre']
+                else:
+                    return jsonify(erro='Nota primeiro semestre inválida'), 400
             if atualizacao.get("nota_segundo_semestre"):
+                if 0 <= atualizacao['nota_segundo_semestre'] <= 10:
+                    aluno['nota_segundo_semestre'] = atualizacao['nota_segundo_semestre']
+                else:
+                    return jsonify(erro='Nota segundo semestre inválida'), 400
                 aluno['nota_segundo_semestre'] = atualizacao['nota_segundo_semestre']
             aluno['media_final'] = media(aluno['nota_primeiro_semestre'], aluno['nota_segundo_semestre'] )
             return jsonify(message="atualizado com sucesso")
