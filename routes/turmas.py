@@ -18,8 +18,6 @@ def get_turmas_id(id):
             return jsonify(turma)
     return jsonify(erro="turma nao encontrada"), 400
 
-
-
 @turmas_bp.route("/turmas", methods=['POST'])
 def create_turma():
     if not api_entidades['professores']:
