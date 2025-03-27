@@ -4,8 +4,10 @@ alunos = api_entidades["alunos"]
 turmas = api_entidades['turmas']
 
 class AlunoNaoEncontrado(Exception):
-    pass
-
+    def __init__(self, msg):
+        super().__init__(msg)
+        self.msg = msg
+        
 def listar_alunos():
     return alunos
 
@@ -13,33 +15,32 @@ def aluno_por_id(id_aluno):
     for aluno in alunos:
         if aluno["id"] == id_aluno:
             return aluno
-    raise AlunoNaoEncontrado
+    raise AlunoNaoEncontrado("Aluno não criado")
 
 def adicionar_aluno(novo_aluno):    
     if not turmas:
-        raise AlunoNaoEncontrado
-    
+        raise AlunoNaoEncontrado("Não há turmas para criar Alunos")
     if not novo_aluno.get('id'):
         novo_aluno['id'] = alunos[-1]["id"] + 1 if alunos else 1   
     if not novo_aluno.get("nome"):
-        return "aluno sem nome"
+         raise AlunoNaoEncontrado("Aluno sem nome")
     if not novo_aluno.get("nota_primeiro_semestre"):
-        return "aluno sem primeira nota"
+        raise AlunoNaoEncontrado("Aluno sem primeira nota")
     if novo_aluno['nota_primeiro_semestre'] > 10 or novo_aluno['nota_primeiro_semestre'] < 0:
-        return 'Nota primeiro semestre inválida'
+        raise AlunoNaoEncontrado("Primeira nota inválida, passe um valor de 0 a 10")
     if not novo_aluno.get("nota_segundo_semestre"):
-        return "aluno sem segunda nota"
+        raise AlunoNaoEncontrado("Aluno sem segunda nota")
     if novo_aluno['nota_segundo_semestre'] > 10 or novo_aluno['nota_segundo_semestre'] < 0:
-        return 'Nota segundo semestre inválida'
+        raise AlunoNaoEncontrado("Segunda nota inválida, passe um valor de 0 a 10")
     if not novo_aluno.get("turma_id"):
-        return "aluno sem turma"
+        raise AlunoNaoEncontrado("Aluno sem Turma")
     else:
         if not any(turma["id"] == novo_aluno["turma_id"] for turma in turmas):
-            return "Id da turma não encontrado"
+            raise AlunoNaoEncontrado("Id da turma não encontrado")
     if novo_aluno.get("data_nascimento"):
         split = novo_aluno.get("data_nascimento").split('/')
         if not len(split[0]) == 4:
-            return "formato da data incorreto, passe no formato 'YYYY/MM/DD"
+            raise AlunoNaoEncontrado("formato da data incorreto, passe no formato 'YYYY/MM/DD")
     else:
          return "aluno sem data de nascimento"
     if not any(aluno["id"] == novo_aluno["id"] for aluno in alunos):
@@ -50,10 +51,9 @@ def adicionar_aluno(novo_aluno):
 def atualizar_aluno(id_aluno, novos_dados):
     aluno = aluno_por_id(id_aluno)
     if not aluno:
-        raise AlunoNaoEncontrado
-    
+        raise AlunoNaoEncontrado("Aluno não criado")
     if not novos_dados.get("nome"):
-        return "aluno sem nome"
+       raise AlunoNaoEncontrado("Aluno sem nome")
     aluno["nome"] = novos_dados["nome"]
     if novos_dados.get("data_nascimento"):
         aluno['data_nascimento'] = novos_dados['data_nascimento']
@@ -62,23 +62,23 @@ def atualizar_aluno(id_aluno, novos_dados):
         if 0 <= novos_dados['nota_primeiro_semestre'] <= 10:
             aluno['nota_primeiro_semestre'] = novos_dados['nota_primeiro_semestre']
         else:
-            return 'Nota primeiro semestre inválida'
+            raise AlunoNaoEncontrado("Primeira nota inválida, passe um valor de 0 a 10")
     if novos_dados.get("nota_segundo_semestre"):
         if 0 <= novos_dados['nota_segundo_semestre'] <= 10:
             aluno['nota_segundo_semestre'] = novos_dados['nota_segundo_semestre']
         else:
-            return 'Nota segundo semestre inválida'
+            raise AlunoNaoEncontrado("Segunda nota inválida, passe um valor de 0 a 10")
         aluno['nota_segundo_semestre'] = novos_dados['nota_segundo_semestre']
     if novos_dados.get("turma_id"):
         if any(turma["id"] == novos_dados["turma_id"] for turma in turmas):                                        
             aluno["turma_id"] = novos_dados["turma_id"]
         else:
-            return "Id da turma não encontrado"           
+            raise AlunoNaoEncontrado("Id da turma não encontrado")           
     aluno['media_final'] = media(aluno['nota_primeiro_semestre'], aluno['nota_segundo_semestre'] )
     return "atualizado com sucesso"
 
 def excluir_aluno(id_aluno):
     aluno = aluno_por_id(id_aluno)
     if not aluno:
-        raise AlunoNaoEncontrado
+        raise AlunoNaoEncontrado("Aluno não criado")
     alunos.remove(aluno)
