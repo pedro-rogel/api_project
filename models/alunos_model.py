@@ -1,6 +1,7 @@
 from apis.entidades import *
 
 alunos = api_entidades["alunos"]
+turmas = api_entidades['turmas']
 
 class AlunoNaoEncontrado(Exception):
     pass
@@ -14,9 +15,7 @@ def aluno_por_id(id_aluno):
             return aluno
     raise AlunoNaoEncontrado
 
-def adicionar_aluno(novo_aluno):
-    turmas = api_entidades['turmas']
-    
+def adicionar_aluno(novo_aluno):    
     if not turmas:
         raise AlunoNaoEncontrado
     
@@ -71,7 +70,7 @@ def atualizar_aluno(id_aluno, novos_dados):
             return 'Nota segundo semestre inválida'
         aluno['nota_segundo_semestre'] = novos_dados['nota_segundo_semestre']
     if novos_dados.get("turma_id"):
-        if any(turma["id"] == novos_dados["turma_id"] for turma in turmas):
+        if any(turma["id"] == novos_dados["turma_id"] for turma in turmas):                                        
             aluno["turma_id"] = novos_dados["turma_id"]
         else:
             return "Id da turma não encontrado"           
