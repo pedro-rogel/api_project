@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from apis.entidades import *
+from models.turmas_models import TurmaNaoEncontrada, listar_turmas, get_turmas_id, create_turma, update_turma_put, deletar_turma
 
 turmas_bp = Blueprint("turmas", __name__)
 
@@ -8,68 +9,37 @@ professores = api_entidades["professores"]
 
 @turmas_bp.route("/turmas", methods=['GET'])
 def get_turmas():
-    return jsonify(turmas)
+    return jsonify(listar_turmas()),200
 
 @turmas_bp.route("/turmas/<int:id>", methods=['GET'])
-def get_turmas_id(id):
-    for turma in turmas:
-        if turma["id"] == id:
-            return jsonify(turma)
-    return jsonify(erro="turma nao encontrada"), 400
+def listar_turmas_id(id):
+   try:
+       return jsonify(get_turmas_id(id)),200
+   except TurmaNaoEncontrada as erro:
+       return jsonify(erro=erro.msg), 400
 
 @turmas_bp.route("/turmas", methods=['POST'])
-def create_turma():
-    if not api_entidades['professores']:
-        return jsonify(erro="Não há professores criados"),400
+def create_turma_post():
     nova_turma = request.json
-    if not nova_turma.get('id'):
-        nova_turma['id'] = turmas[-1]["id"] + 1 if turmas else 1   
-    if not nova_turma.get("nome"):
-        return jsonify(erro="turma sem nome"), 400
-    if not nova_turma.get("turno"):
-        return jsonify(erro="turma sem turno"), 400
-    if not nova_turma.get("descricao"):
-        return jsonify(erro="Turma sem descrição"),400
-    if not nova_turma.get("status"):
-        return jsonify(erro="turma sem status"), 400
-    if not nova_turma.get("professor_id"):
-        return jsonify(erro="turma sem professor"), 400
-    else:
-        if not any(professor["id"] == nova_turma["professor_id"] for professor in professores):
-            return jsonify(erro="Id do professor não encontrado"), 400
-    if not any(turma["id"] == nova_turma["id"] for turma in turmas):
-        obj_turma = Turma(nova_turma["id"], nova_turma['nome'], nova_turma['turno'], nova_turma['professor_id'], nova_turma['descricao'], nova_turma['status'])
-        turmas.append(obj_turma.converter_turma_dici())
-        return jsonify(message="criado com sucesso")
-    return jsonify(erro="id ja utilizada"), 400
+    try:
+        create_turma(nova_turma)
+        return jsonify(nova_turma)
+    except TurmaNaoEncontrada as erro:
+        return jsonify(error=erro.msg),400
 
 @turmas_bp.route("/turmas/<int:id>", methods=['PUT'])
 def update_turma(id):
-    for turma in turmas:
-        if turma["id"] == id:
-            atualizacao = request.json
-            if not atualizacao.get("nome"):
-                return jsonify(erro="turma sem nome"), 400
-            if atualizacao.get("descricao"):
-                turma['descricao'] = atualizacao['descricao']
-            if atualizacao.get("status"):
-                turma['status'] = atualizacao['status']
-            turma["nome"] = atualizacao["nome"]
-            if atualizacao.get("turno"):
-                turma["turno"] = atualizacao["turno"]
-            if atualizacao.get("professor_id"):
-                if not any(professor["id"] == atualizacao["professor_id"] for professor in professores):
-                    return jsonify(erro="Id do professor não encontrado"), 400
-                turma["professor_id"] = atualizacao["professor_id"]
-            if atualizacao.get("id"):
-                turma['id'] = atualizacao['id']
-            return jsonify(message="atualizado com sucesso")
-    return jsonify(erro="turma nao encontrada"), 400
+    atualizacao = request.json
+    try:
+        update_turma_put(id, atualizacao)
+        return jsonify(get_turmas_id(id)), 200
+    except TurmaNaoEncontrada as erro:
+        return jsonify(erro=erro.msg), 400
 
 @turmas_bp.route("/turmas/<int:id>", methods=['DELETE'])
 def delete_turma(id):
-    for turma in turmas:
-        if turma["id"] == id:
-            turmas.remove(turma)
-            return jsonify(message="deletado com sucesso")
-    return jsonify(erro="turma nao encontrada"), 400
+    try:
+        deletar_turma(id)
+        return jsonify(message="Deletado com sucesso"), 200
+    except TurmaNaoEncontrada as erro:
+        return jsonify(erro=erro.msg)

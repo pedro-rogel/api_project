@@ -12,8 +12,8 @@ def get_student_id(id):
     try:
         aluno = aluno_por_id(id)
         return jsonify(aluno)
-    except AlunoNaoEncontrado:
-        return jsonify(erro="aluno nao encontrado"), 400
+    except AlunoNaoEncontrado as erro:
+        return jsonify(erro=erro.msg), 400
 
 @alunos_bp.route("/alunos", methods=['POST'])
 def create_student():
@@ -21,8 +21,8 @@ def create_student():
     try:
         adicionar_aluno(data)
         return jsonify(data)
-    except AlunoNaoEncontrado:
-        return jsonify(erro="aluno nao encontrado"), 400
+    except AlunoNaoEncontrado as erro:
+        return jsonify(erro=erro.msg), 400
 
 @alunos_bp.route("/alunos/<int:id>", methods=['PUT'])
 def update_student(id):
@@ -30,13 +30,13 @@ def update_student(id):
     try:
         atualizar_aluno(id, data)
         return jsonify(aluno_por_id(id))
-    except AlunoNaoEncontrado:
-        return jsonify(erro="aluno nao encontrado"), 400
+    except AlunoNaoEncontrado as erro:
+        return jsonify(erro=erro.msg), 400
 
 @alunos_bp.route("/alunos/<int:id>", methods=['DELETE'])
 def delete_student(id):
     try:
         excluir_aluno(id)
         return jsonify(message="deletado com sucesso")
-    except AlunoNaoEncontrado:
-        return jsonify(erro="aluno nao encontrado"), 400
+    except AlunoNaoEncontrado as erro:
+        return jsonify(erro=erro.msg), 400
