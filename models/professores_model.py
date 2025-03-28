@@ -17,7 +17,7 @@ def professor_por_id(id_professor):
     for professor in professores:
         if professor['id'] == id_professor:
             return professor
-    raise ProfessorNaoEncontrado("Professor não foi criado")
+        raise ProfessorNaoEncontrado("Professor não foi criado")
     
 def adicionar_professor_post(novo_professor):
     if not novo_professor.get('id'):

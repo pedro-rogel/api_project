@@ -58,7 +58,7 @@ class TestStringMethods(unittest.TestCase):
         "turma_id": 1
         })
         self.assertIn(r.status_code,[400,404])
-        self.assertEqual(r.json()['erro'],'Não há turmas para criar Alunos')
+        self.assertEqual(r.json()['erro'],'Não há turmas criadas')
 
 
     def test_008_turmas_post_sem_professores(self):
@@ -69,7 +69,7 @@ class TestStringMethods(unittest.TestCase):
             'professor_id': 1
             })
         self.assertIn(r.status_code,[400,404])
-        self.assertEqual(r.json(),{'error':F'Não há professores'})
+        self.assertEqual(r.json()['erro'],'Não há professores criados')
 
 
     def test_009_professores_post_criar_professor(self):
@@ -85,8 +85,7 @@ class TestStringMethods(unittest.TestCase):
             "data_nascimento": "1988/04/14",
             "disciplina": "Dev Web",
             "salario": 6300.0,
-            "descricao": "Coisa alguma",
-            "id":2
+            "descricao": "Coisa alguma"
             })
         r_lista = requests.get('http://localhost:5000/professores')
         if not any(professor["nome"] == "João" for professor in r_lista.json()):
@@ -146,7 +145,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_013_professores_get_id(self):
         r_lista = requests.get('http://localhost:5000/professores/2')
-        self.assertEqual(r_lista.json()['nome'], 'Marcelo')
+        self.assertEqual(r_lista.json()['nome'],'Marcelo')
 
 
     def test_014_turmas_get_id(self):

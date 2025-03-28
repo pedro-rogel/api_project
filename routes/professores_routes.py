@@ -12,7 +12,7 @@ def get_professores():
 def get_professor_id(id):
     try:
         professor = professor_por_id(id)
-        return jsonify(professor), 200
+        return jsonify(professor)
     except ProfessorNaoEncontrado as erro:
         return jsonify(erro=erro.msg), 400
 
