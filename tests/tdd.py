@@ -58,7 +58,7 @@ class TestStringMethods(unittest.TestCase):
         "turma_id": 1
         })
         self.assertIn(r.status_code,[400,404])
-        self.assertEqual(r.json()['erro'],'Não há turmas criadas')
+        self.assertEqual(r.json()['erro'],'Não há turmas para criar Alunos')
 
 
     def test_008_turmas_post_sem_professores(self):
@@ -69,7 +69,7 @@ class TestStringMethods(unittest.TestCase):
             'professor_id': 1
             })
         self.assertIn(r.status_code,[400,404])
-        self.assertEqual(r.json()['erro'],'Não há professores criados')
+        self.assertEqual(r.json(), {'error': 'Não há professores'})
 
 
     def test_009_professores_post_criar_professor(self):
