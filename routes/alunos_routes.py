@@ -5,13 +5,12 @@ alunos_bp = Blueprint("alunos", __name__)
 
 @alunos_bp.route("/alunos", methods=['GET'])
 def get_student():
-    return jsonify(listar_alunos())
+    return jsonify(listar_alunos()), 200
 
 @alunos_bp.route("/alunos/<int:id>", methods=['GET'])
 def get_student_id(id):
     try:
-        aluno = aluno_por_id(id)
-        return jsonify(aluno)
+        return jsonify(aluno_por_id(id)), 200
     except AlunoNaoEncontrado as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -20,7 +19,7 @@ def create_student():
     data = request.json
     try:
         adicionar_aluno(data)
-        return jsonify(data)
+        return jsonify(data), 200
     except AlunoNaoEncontrado as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -29,7 +28,7 @@ def update_student(id):
     data = request.json
     try:
         atualizar_aluno(id, data)
-        return jsonify(aluno_por_id(id))
+        return jsonify(aluno_por_id(id)), 200
     except AlunoNaoEncontrado as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -37,6 +36,6 @@ def update_student(id):
 def delete_student(id):
     try:
         excluir_aluno(id)
-        return jsonify(message="deletado com sucesso")
+        return jsonify(message="Deletado com sucesso"), 200
     except AlunoNaoEncontrado as erro:
         return jsonify(erro=erro.msg), 400
