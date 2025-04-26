@@ -1,6 +1,6 @@
-from flask import Flask
-app = Flask(__name__)
-
-app.config['HOST'] = '0.0.0.0'
-app.config['PORT'] = 9090
-app.config['DEBUG'] = True
+class Config:
+    HOST = '0.0.0.0'
+    PORT = 9090
+    DEBUG = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
