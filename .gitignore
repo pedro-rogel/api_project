@@ -1,6 +1,2 @@
 __pycache__/
-apis/__pycache__/
-controller/__pycache__/
-models/__pycache__/
-tests/__pycache__/
 venv/
