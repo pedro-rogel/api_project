@@ -21,7 +21,7 @@ modelo_turmas_output = ns_api_turmas.model('TurmasOutPut', {
     'professor_id': fields.Integer(description='Id do professor')
 })
 
-@ns_api_turmas.route('/')
+@ns_api_turmas.route('/turmasswagger')
 class TurmasGetPost(Resource):
     @ns_api_turmas.response(200,'Turmas', modelo_turmas_output)
     def get(self):
@@ -42,7 +42,7 @@ class TurmasGetPost(Resource):
             return {"erro": erro.msg}, 400
     
 
-@ns_api_turmas.route ('/<int:id>')  
+@ns_api_turmas.route ('/turmasswagger/<int:id>')  
 @ns_api_turmas.param('id', 'Id da turma')
 class TurmasPorId(Resource):
     @ns_api_turmas.marshal_list_with(modelo_turmas_output)

@@ -22,7 +22,7 @@ model_professores_output = ns_api_professores.model("ProfessoresOutPut", {
     "descricao": fields.String(description="Descrição do Professor"),
 })
 
-@ns_api_professores.route('/')
+@ns_api_professores.route('/professoresswagger')
 class ProfessoresGetPost(Resource):
     @ns_api_professores.response(200,"Código", model_professores_output)
     def get(self):
@@ -42,7 +42,7 @@ class ProfessoresGetPost(Resource):
         except ProfessorException as erro:
             return {"erro": erro.msg}, 400
         
-@ns_api_professores.route('/<int:id>')
+@ns_api_professores.route('/professoresswagger/<int:id>')
 @ns_api_professores.param('id', 'Id do Professor')
 class ProfessorPorId(Resource):
     @ns_api_professores.marshal_list_with(model_professores_output)

@@ -23,7 +23,7 @@ modelo_aluno_output = ns_api_alunos.model("AlunoOutPut", {
     "turma_id": fields.Integer(description="ID da turma")
 })
 
-@ns_api_alunos.route('/')
+@ns_api_alunos.route('/alunosswagger')
 class AlunosGetPost(Resource):
     @ns_api_alunos.response(200, "Alunos", modelo_aluno_output)
     def get(self):
@@ -41,7 +41,7 @@ class AlunosGetPost(Resource):
             return {"erro": erro.msg}, 400
     
 
-@ns_api_alunos.route("/<int:id>")
+@ns_api_alunos.route("/alunosswagger/<int:id>")
 @ns_api_alunos.param("id", "Id do aluno")
 class AlunosPorId(Resource):
     @ns_api_alunos.marshal_list_with(modelo_aluno_output)
