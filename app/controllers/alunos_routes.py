@@ -10,7 +10,7 @@ def get_alunos():
 @alunos_bp.route("/alunos/<int:id>", methods=['GET'])
 def get_aluno_id(id):
     try:
-        return jsonify(data=aluno_por_id(id)), 200
+        return jsonify(aluno_por_id(id)), 200
     except AlunoException as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -19,7 +19,7 @@ def create_aluno():
     data = request.json
     try:
         msg = adicionar_aluno(data)
-        return jsonify(data=data, mensagem=msg), 200
+        return jsonify(data, mensagem=msg), 200
     except AlunoException as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -28,7 +28,7 @@ def update_aluno(id):
     data = request.json
     try:
         msg = atualizar_aluno(id, data)
-        return jsonify(data=aluno_por_id(id), mensagem=msg), 200
+        return jsonify(aluno_por_id(id), mensagem=msg), 200
     except AlunoException as erro:
         return jsonify(erro=erro.msg), 400
 

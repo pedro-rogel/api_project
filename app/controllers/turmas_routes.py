@@ -10,7 +10,7 @@ def get_turmas():
 @turmas_bp.route("/turmas/<int:id>", methods=['GET'])
 def get_turma_id(id):
    try:
-       return jsonify(data=turma_por_id(id)), 200
+       return jsonify(turma_por_id(id)), 200
    except TurmaException as erro:
        return jsonify(erro=erro.msg), 400
 
@@ -19,7 +19,7 @@ def create_turma():
     data = request.json
     try:
         msg = adicionar_turma(data)
-        return jsonify(data=data, mensagem=msg), 200
+        return jsonify(data, mensagem=msg), 200
     except TurmaException as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -28,7 +28,7 @@ def update_turma(id):
     data = request.json
     try:
         msg = atualizar_turma(id, data)
-        return jsonify(data=turma_por_id(id), mensagem=msg), 200
+        return jsonify(turma_por_id(id), mensagem=msg), 200
     except TurmaException as erro:
         return jsonify(erro=erro.msg), 400
 

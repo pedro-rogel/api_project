@@ -10,16 +10,16 @@ def get_professores():
 @professores_bp.route("/professores/<int:id>", methods=['GET'])
 def get_professor_id(id):
     try: 
-        return jsonify(data=professor_por_id(id)), 200
+        return jsonify(professor_por_id(id)), 200
     except ProfessorException as erro:
-        return jsonify(erro=erro.msg), 400
+        return jsonify(erro.msg), 400
 
 @professores_bp.route("/professores", methods=['POST'])
 def create_professor():
     data = request.json
     try:
         msg = adicionar_professor(data)
-        return jsonify(data=data, mensagem=msg), 200
+        return jsonify(data, mensagem=msg), 200
     except ProfessorException as erro:
         return jsonify(erro=erro.msg), 400
 
@@ -28,7 +28,7 @@ def update_professor(id):
     data = request.json
     try:
         msg = atualizar_professor(id, data)
-        return jsonify(data=professor_por_id(id), mensagem=msg), 200
+        return jsonify(professor_por_id(id), mensagem=msg), 200
     except ProfessorException as erro:
         return jsonify(erro=erro.msg), 400
 
