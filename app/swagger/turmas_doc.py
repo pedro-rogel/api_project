@@ -23,11 +23,17 @@ modelo_turmas_output = ns_api_turmas.model('TurmasOutPut', {
 
 @ns_api_turmas.route('/')
 class TurmasGetPost(Resource):
-    @ns_api_turmas.response(200,'Codigo', modelo_turmas)
+    @ns_api_turmas.response(200,'Turmas', modelo_turmas_output)
     def get(self):
-        return {listar_turmas()}, 200
+        """Retorna todas as turmas cadastradas"""
+        try:
+            return {"data":listar_turmas()}, 200
+        except TurmaException as erro:
+            return {"error": erro.msg}
+        
     @ns_api_turmas.expect(modelo_turmas)    
     def post(self):
+        """Cria um nova turma"""
         data = api.payload
         try:
             msg = adicionar_turma(data)
@@ -35,12 +41,13 @@ class TurmasGetPost(Resource):
         except TurmaException as erro:
             return {"erro": erro.msg}, 400
     
-@ns_api_turmas.expect(modelo_turmas_output)
+
 @ns_api_turmas.route ('/<int:id>')  
 @ns_api_turmas.param('id', 'Id da turma')
 class TurmasPorId(Resource):
-    @ns_api_turmas.response(200,'Codigo', modelo_turmas)
+    @ns_api_turmas.marshal_list_with(modelo_turmas_output)
     def get(self, id):
+        """Retorna a turma pelo id passado"""
         try:
             return {"data": turma_por_id(id)}, 200
         except TurmaException as erro:
@@ -48,6 +55,7 @@ class TurmasPorId(Resource):
         
     @ns_api_turmas.expect(modelo_turmas)
     def put(self, id):
+        """Atualiza a turma pelo id passado"""
         data = api.payload
         try:
            msg = atualizar_turma(id, data)    
@@ -56,6 +64,7 @@ class TurmasPorId(Resource):
             return {"erro": erro.msg}, 400
         
     def delete(self, id):
+        """Deleta a turma pelo id passado"""
         try:
             msg = deletar_turma(id)
             return {"mensagem": msg}, 200
