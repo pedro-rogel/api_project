@@ -25,25 +25,28 @@ modelo_aluno_output = ns_api_alunos.model("AlunoOutPut", {
 
 @ns_api_alunos.route('/')
 class AlunosGetPost(Resource):
-    @ns_api_alunos.response(200, "Alunos CRUD", modelo_aluno)
+    @ns_api_alunos.response(200, "Alunos", modelo_aluno_output)
     def get(self):
-        return {listar_alunos()}, 200
+        """Retorna todos os alunos cadastrados"""
+        return {"data": listar_alunos()}, 200
     
     @ns_api_alunos.expect(modelo_aluno)
     def post(self):
+        """Cria um aluno"""
         data = api.payload
         try:
             msg = adicionar_aluno(data)
             return {"data": data, "mensagem": msg}, 200
         except AlunoException as erro:
             return {"erro": erro.msg}, 400
-        
-@ns_api_alunos.expect(modelo_aluno_output)
+    
+
 @ns_api_alunos.route("/<int:id>")
 @ns_api_alunos.param("id", "Id do aluno")
 class AlunosPorId(Resource):
-    @ns_api_alunos.response(200, "Alunos CRUD", modelo_aluno)
+    @ns_api_alunos.marshal_list_with(modelo_aluno_output)
     def get(self, id):
+        """Retorna o aluno pelo id passado"""
         try:
             return {"data": aluno_por_id(id)}, 200           
         except AlunoException as erro:
@@ -51,6 +54,7 @@ class AlunosPorId(Resource):
     
     @ns_api_alunos.expect(modelo_aluno)
     def put(self, id):
+        """ATualiza o aluno pelo id passado"""
         data = api.payload
         try:
             msg = atualizar_aluno(id,data)
@@ -59,8 +63,11 @@ class AlunosPorId(Resource):
             return {"erro": erro.msg}, 400
         
     def delete(self, id):
+        """Deleta um aluno pelo id passado"""
         try:
             msg = deletar_aluno(id)
             return {"data": msg}, 200
         except AlunoException as erro:
             return {"erro": erro.msg}, 400
+        
+    
