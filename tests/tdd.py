@@ -140,41 +140,41 @@ class TestStringMethods(unittest.TestCase):
 
     def test_012_alunos_get_id(self):
         r_lista = requests.get('http://localhost:9090/alunos/2')
-        self.assertEqual(r_lista.json()['data']['nome'],'Fernando Barril')
+        self.assertEqual(r_lista.json()['nome'],'Fernando Barril')
 
 
     def test_013_professores_get_id(self):
         r_lista = requests.get('http://localhost:9090/professores/2')
-        self.assertEqual(r_lista.json()['data']['nome'],'Marcelo')
+        self.assertEqual(r_lista.json()['nome'],'Marcelo')
 
 
     def test_014_turmas_get_id(self):
         r_lista = requests.get('http://localhost:9090/turmas/2')
-        self.assertEqual(r_lista.json()['data']['nome'],'SI')
+        self.assertEqual(r_lista.json()['nome'],'SI')
 
 
     def test_015_alunos_put_edita(self):
         r = requests.get('http://localhost:9090/alunos/2')
-        self.assertEqual(r.json()['data']['nome'],'Fernando Barril')
+        self.assertEqual(r.json()['nome'],'Fernando Barril')
         requests.put('http://localhost:9090/alunos/2', json={'nome':'Felippe Fodase'})
         r_depois = requests.get('http://localhost:9090/alunos/2')
-        self.assertEqual(r_depois.json()['data']['nome'],'Felippe Fodase')
+        self.assertEqual(r_depois.json()['nome'],'Felippe Fodase')
 
 
     def test_016_professores_put_edita(self):
         r = requests.get('http://localhost:9090/professores/1')
-        self.assertEqual(r.json()['data']['nome'],'João')
+        self.assertEqual(r.json()['nome'],'João')
         requests.put('http://localhost:9090/professores/1', json={'nome':'Gustavo Santos'})
         r_depois = requests.get('http://localhost:9090/professores/1')
-        self.assertEqual(r_depois.json()['data']['nome'],'Gustavo Santos')
+        self.assertEqual(r_depois.json()['nome'],'Gustavo Santos')
 
 
     def test_017_turmas_put_edita(self):
         r = requests.get('http://localhost:9090/turmas/1')
-        self.assertEqual(r.json()['data']['nome'],'ADS')
+        self.assertEqual(r.json()['nome'],'ADS')
         requests.put('http://localhost:9090/turmas/1', json={'nome':'ADS 2B'})
         r_depois = requests.get('http://localhost:9090/turmas/1')
-        self.assertEqual(r_depois.json()['data']['nome'],'ADS 2B')
+        self.assertEqual(r_depois.json()['nome'],'ADS 2B')
 
 
     def test_018_alunos_delete(self):
