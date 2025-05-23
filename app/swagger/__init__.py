@@ -1,9 +1,13 @@
 from flask_restx import Api
+from flask import Blueprint
+
+swagger_bp = Blueprint("swagger_bp", __name__, url_prefix="/doc")
 
 api = Api(
+    swagger_bp,
     title="School System Swagger",
     description="Documentação da API",
-    doc="/doc"
+    doc="/"
 )
 
 from ..swagger.alunos_doc import ns_api_alunos
